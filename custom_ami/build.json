@@ -1,0 +1,33 @@
+{
+  "builders": [
+    {
+      "type": "amazon-ebs",
+      "region": "ap-northeast-1",
+      "source_ami_filter": {
+        "filters": {
+          "name": "amzn2-ami-hvm-*-x86_64-gp2",
+          "virtualization-type": "hvm",
+          "architecture": "x86_64",
+          "root-device-type": "ebs",
+          "state": "available"
+        },
+        "owners": ["amazon"],
+        "most_recent": true
+      },
+      "instance_type": "t2.nano",
+      "ssh_username": "ec2-user",
+      "ssh_timeout": "5m",
+      "ami_name": "hello-asg-{{isotime \"20060102T150405\"}}",
+      "force_delete_snapshot": true
+    }
+  ],
+
+  "provisioners": [
+    {
+      "type": "shell",
+      "inline": [
+        "sudo amazon-linux-extras install -y nginx1.12"
+      ]
+    }
+  ]
+}
